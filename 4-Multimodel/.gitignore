@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+
+# Env files
+.env
+
+# Models & big files
+*.bin
+*.pt
+*.ckpt
+
+# Ollama cache
+/.ollama
