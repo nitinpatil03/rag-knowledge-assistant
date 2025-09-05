@@ -1,98 +1,112 @@
-# 📚 Multimodal RAG with Ollama + CLIP + FAISS
+# 📚 Multimodal PDF Q&A
 
-This project is a **Multimodal Retrieval-Augmented Generation (RAG) pipeline** that works **fully offline**.  
-It extracts **text + images** from PDFs, embeds them with **CLIP**, stores them in a **FAISS vector database**, and queries them using **local LLMs via Ollama** (default = `phi`).
-
----
-
-## 🚀 Features
-- 📄 **Parse PDFs** (text + images) with [PyMuPDF](https://pymupdf.readthedocs.io/).  
-- 🧠 **Embed text and images** using [OpenAI CLIP](https://huggingface.co/openai/clip-vit-base-patch32).  
-- 🔍 **Vector search** using [FAISS](https://faiss.ai/).  
-- 🤖 **Local LLM responses** using [Ollama](https://ollama.ai/) (default = `phi`, fallback = `mistral:q4_0`).  
-- 💡 Works **offline** after downloading models.  
+An **AI-powered application** that lets you upload a PDF and ask questions about both **text and images inside the document**.  
+It uses **CLIP embeddings**, **LangChain**, **FAISS**, and **Ollama LLMs** to retrieve multimodal context and generate answers.  
+The interface is built with **Gradio** for an easy-to-use web UI.  
 
 ---
 
-## 📦 Installation
+## 🚀 Features  
+- 🔎 Extracts **text and images** from PDF documents  
+- 🖼️ Embeds both **text & images** with CLIP  
+- 📖 Splits text into manageable chunks for better retrieval  
+- 📊 Stores embeddings in **FAISS vector database**  
+- 💬 Answers questions using **Ollama LLMs** (phi / mistral)  
+- 🌐 Interactive **Gradio UI**  
 
-### 1. Install dependencies
+---
+
+## 🛠️ Installation  
+
+### 1️⃣ Clone the repository  
 ```bash
-pip install --upgrade transformers huggingface_hub torch pillow scikit-learn python-dotenv pymupdf faiss-cpu langchain langchain-community
+git clone https://github.com/your-username/multimodal-pdf-qa.git
+cd multimodal-pdf-qa
 ```
 
-### 2. Install Ollama
-Download Ollama from 👉 [https://ollama.ai/download](https://ollama.ai/download)
-
-Then pull the model:
+### 2️⃣ Create a virtual environment  
 ```bash
-ollama pull phi
+python -m venv venv
+source venv/bin/activate   # On Linux/Mac
+venv\Scripts\activate    # On Windows
 ```
 
-(Optional) Pull other models:
+### 3️⃣ Install dependencies  
 ```bash
-ollama pull mistral:q4_0
-ollama pull llama2
+pip install -r requirements.txt
+```
+
+Or manually:  
+```bash
+pip install gradio transformers huggingface_hub torch pillow scikit-learn python-dotenv pymupdf faiss-cpu langchain langchain-community
+```
+
+### 4️⃣ Setup environment variables  
+Create a `.env` file in the project root if needed for API keys or custom configs. Example:  
+```
+OLLAMA_HOST=http://localhost:11434
 ```
 
 ---
 
-## 📂 Project Structure
+## ▶️ Usage  
+
+Run the app:  
+```bash
+python app.py
 ```
-multimodal-rag/
-│── 1-multimodelopenai.ipynb   # Main notebook (Ollama-based RAG pipeline)
-│── multimodal_sample.pdf      # Example PDF (replace with your own)
-│── README.md                  # Project documentation
+
+This will launch a **local Gradio UI** in your browser.  
+
+1. 📄 Upload a PDF file  
+2. ❓ Ask a question about the content or images inside  
+3. 🤖 Get context-aware answers powered by LLM  
+
+---
+
+## 📂 Project Structure  
+```
+multimodal-pdf-qa/
+│── app.py                # Main application script
+│── requirements.txt      # Python dependencies
+│── .env                  # Environment variables (optional)
+│── README.md             # Project documentation
 ```
 
 ---
 
-## ▶️ Usage
-
-1. Place your PDF inside the project folder and rename it:
-   ```
-   multimodal_sample.pdf
-   ```
-
-2. Open Jupyter Notebook:
-   ```bash
-   jupyter notebook 1-multimodelopenai.ipynb
-   ```
-
-3. Run all cells.
-
-4. Example queries:
-   ```python
-   queries = [
-       "What does the chart on page 1 show about revenue trends?",
-       "Summarize the main findings from the document",
-       "What visual elements are present in the document?"
-   ]
-   ```
+## ⚡ Example Workflow  
+1. Upload a research paper or report PDF.  
+2. Ask: *"What does the chart on page 3 represent?"*  
+3. The system retrieves text + image embeddings.  
+4. The LLM provides a context-aware answer.  
 
 ---
 
-## ✅ Example Output
-```
-❓ Query: Summarize the main findings from the document
---------------------------------------------------
-Retrieved 3 documents:
-- text (page 0)
-- image (page 0)
-- text (page 1)
-
-💡 Answer: The document shows revenue grew steadily, with Q3 achieving the highest growth due to global expansion...
-```
+## 🧰 Tech Stack  
+- **Python**  
+- **Gradio** (UI)  
+- **Transformers (CLIP)** (embeddings)  
+- **FAISS** (vector search)  
+- **LangChain** (document & LLM integration)  
+- **Ollama** (LLM inference)  
 
 ---
 
-## 🛠️ Notes
-- Default LLM = `phi` (lightweight, ~1.5GB).  
-- If `phi` fails, it falls back to `mistral:q4_0`.  
-- Requires at least **8GB RAM** (16GB recommended for bigger models).  
-- You can swap the model in the code:
-  ```python
-  llm = ChatOllama(model="phi")  # or mistral, llama2, gemma
-  ```
+## 📌 Notes  
+- Requires [Ollama](https://ollama.ai) installed locally to run LLM models like `phi` or `mistral`.  
+- Works best on PDFs containing both text and images.  
+- Large PDFs may take time to process.  
 
---
+---
+
+## 🏗️ Future Improvements  
+- Support for **multi-page image previews**  
+- Add **chat history memory**  
+- Support for **more embedding models**  
+- Deploy on **Streamlit / Hugging Face Spaces**  
+
+---
+
+## 📜 License  
+This project is licensed under the **MIT License**.  
